@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class SingleOrder {
+public class OrderItem {
 
 	@XmlAttribute
 	@Id

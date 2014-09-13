@@ -27,7 +27,7 @@ public class Order {
 	private int totalPrice;
 	private OrderStatus orderStatus;
 	@OneToMany (mappedBy = "order")
-	private Set<SingleOrder> orders;
+	private Set<OrderItem> orders;
 
 	public enum OrderStatus {
 		New, Completed, Rejected
@@ -73,11 +73,11 @@ public class Order {
 		this.orderStatus = orderStatus;
 	}
 
-	public Set<SingleOrder> getOrders() {
+	public Set<OrderItem> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(Set<SingleOrder> orders) {
+	public void setOrders(Set<OrderItem> orders) {
 		this.orders = orders;
 	}
 	
