@@ -22,6 +22,7 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long categoryID;
 	private String categoryName;
+	private String categoryDescription;
 	@OneToMany (mappedBy = "category")
 	private Set<Product> products;
 	
@@ -36,6 +37,12 @@ public class Category {
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	public String getCategoryDescription() {
+		return categoryDescription;
+	}
+	public void setCategoryDescription(String categoryDescription) {
+		this.categoryDescription = categoryDescription;
 	}
 	public Set<Product> getProducts() {
 		return products;

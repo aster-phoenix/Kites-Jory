@@ -19,7 +19,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			ResourceBundle resource = PropertyResourceBundle
-					.getBundle("com.asterphoenix.kites.jory.res/Kites", new Locale("en"));
+					.getBundle("com.asterphoenix.kites.jory.res/Kites", Locale.getDefault());
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/login.fxml"));
 			loader.setResources(resource);
 			StackPane root = loader.load();

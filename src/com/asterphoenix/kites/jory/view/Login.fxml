@@ -26,9 +26,9 @@
                         <Font name="Century Gothic" size="21.0" />
                      </font>
                   </Text>
-                  <TextField />
-                  <PasswordField />
-                  <Button mnemonicParsing="false" text="%login" />
+                  <TextField fx:id="userNameField" />
+                  <PasswordField fx:id="passwordField" />
+                  <Button mnemonicParsing="false" onAction="#login" text="%login" />
                </children>
             </VBox>
          </center>

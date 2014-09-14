@@ -10,6 +10,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistencehttp://java.sun.com/xm
 		<class>com.asterphoenix.kites.jory.model.Product</class>
 		<class>com.asterphoenix.kites.jory.model.Order</class>
 		<class>com.asterphoenix.kites.jory.model.OrderItem</class>
+		<class>com.asterphoenix.kites.jory.model.User</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="objectdb://localhost/Kites/KDB.temp"></property>
 			<property name="javax.persistence.jdbc.user" value="admin"></property>
