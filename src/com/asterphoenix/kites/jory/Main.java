@@ -5,13 +5,13 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import com.asterphoenix.kites.jory.controller.LoginController;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import com.asterphoenix.kites.jory.controller.LoginController;
 
 public class Main extends Application {
 
@@ -25,6 +25,7 @@ public class Main extends Application {
 			StackPane root = loader.load();
 			Scene scene = new Scene(root);
 			LoginController controller = loader.getController();
+
 			controller.setUp(primaryStage, scene);
 		} catch (IOException e) {
 			e.printStackTrace();

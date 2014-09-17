@@ -22,7 +22,7 @@
                            <children>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
                                 <items>
-                                  <Button mnemonicParsing="false" text="Add category">
+                                  <Button mnemonicParsing="false" onAction="#addCategory" text="Add category">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -30,7 +30,7 @@
                                              </image>
                                           </ImageView>
                                        </graphic></Button>
-                                    <Button mnemonicParsing="false" text="Remove selected category">
+                                    <Button mnemonicParsing="false" onAction="#removeCategory" text="Remove selected category">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -39,7 +39,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Update selected category">
+                                    <Button mnemonicParsing="false" onAction="#updateCategory" text="Update selected category">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -52,7 +52,7 @@
                               </ToolBar>
                               <SplitPane dividerPositions="0.3" prefWidth="966.0" VBox.vgrow="ALWAYS">
                                  <items>
-                                    <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-font-size: 18;" />
+                                    <ListView fx:id="categoryListView1" onMouseClicked="#onCategoryListView1Clicked" prefHeight="200.0" prefWidth="200.0" style="-fx-font-size: 18;" />
                                     <GridPane>
                                       <columnConstraints>
                                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
@@ -68,9 +68,9 @@
                                           <Label text="Category ID" />
                                           <Label text="Category Name" GridPane.rowIndex="1" />
                                           <Label text="Category Description" GridPane.rowIndex="2" />
-                                          <Label text="#####" GridPane.columnIndex="1" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label fx:id="categoryID" text="#####" GridPane.columnIndex="1" />
+                                          <TextField fx:id="categoryName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextArea fx:id="categoryDesc" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" right="10.0" />
@@ -82,13 +82,13 @@
                         </VBox>
                      </content>
                   </Tab>
-                <Tab text="Products">
+                <Tab closable="false" text="Products">
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
                                 <items>
-                                  <Button mnemonicParsing="false" text="Add product">
+                                  <Button mnemonicParsing="false" onAction="#addProduct" text="Add product">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -97,7 +97,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Remove selected product">
+                                    <Button mnemonicParsing="false" onAction="#removeProduct" text="Remove selected product">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -106,7 +106,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Update selected product">
+                                    <Button mnemonicParsing="false" onAction="#updateProduct" text="Update selected product">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -121,8 +121,8 @@
                                  <items>
                                     <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0">
                                        <items>
-                                          <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-font-size: 18;" />
-                                          <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-font-size: 16;" />
+                                          <ListView fx:id="categoryListView2" onMouseClicked="#onCategoryListView2Clicked" prefHeight="200.0" prefWidth="200.0" style="-fx-font-size: 18;" />
+                                          <ListView fx:id="productListView" onMouseClicked="#onProductListViewClicked" prefHeight="200.0" prefWidth="200.0" style="-fx-font-size: 16;" />
                                        </items>
                                     </SplitPane>
                                     <GridPane>
@@ -137,20 +137,23 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
                                           <Label text="Product ID" />
                                           <Label text="Product Name" GridPane.rowIndex="1" />
                                           <Label text="Product Quantity" GridPane.rowIndex="2" />
                                           <Label text="Product Price" GridPane.rowIndex="3" />
-                                          <Label text="Product Description" GridPane.rowIndex="4" />
-                                          <Label text="Product Category" GridPane.rowIndex="5" />
-                                          <Label text="#####" GridPane.columnIndex="1" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <ComboBox prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <Label text="Product Description" GridPane.rowIndex="5" />
+                                          <Label text="Product Category" GridPane.rowIndex="6" />
+                                          <Label fx:id="productID" text="#####" GridPane.columnIndex="1" />
+                                          <TextField fx:id="productName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="productQTY" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="productPrice" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <ComboBox fx:id="productCategory" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <TextArea fx:id="productDesc" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <ComboBox fx:id="productBrand" editable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Label text="Product Brand" GridPane.rowIndex="4" />
                                        </children>
                                        <padding>
                                           <Insets right="10.0" />
@@ -192,7 +195,19 @@
             </HBox>
          </top>
          <bottom>
-            <Region opacity="0.2" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #000;" BorderPane.alignment="CENTER" />
+            <HBox alignment="TOP_RIGHT" prefHeight="32.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onMouseClicked="#switchScreen" text="fullscreen">
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/ic_action_full_screen.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
          </bottom>
       </BorderPane>
    </children>

@@ -6,17 +6,6 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import org.controlsfx.dialog.DialogStyle;
-import org.controlsfx.dialog.Dialogs;
-
-import com.asterphoenix.kites.jory.model.JoryDAO;
-import com.asterphoenix.kites.jory.model.User;
-import com.asterphoenix.roxy.RoxyDigest;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,24 +17,34 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.controlsfx.dialog.DialogStyle;
+import org.controlsfx.dialog.Dialogs;
+
+import com.asterphoenix.kites.jory.model.JoryDAO;
+import com.asterphoenix.kites.jory.model.User;
+import com.asterphoenix.roxy.RoxyDigest;
+
 public class LoginController implements Initializable {
 
 	private Stage stage;
 	private Scene scene;
 	private JoryDAO joryDAO;
-	private EntityManagerFactory emf;
-	private EntityManager em;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		emf = Persistence.createEntityManagerFactory("Kites-Jory");
-		em = emf.createEntityManager();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Kites-Jory");
+		EntityManager em = emf.createEntityManager();
 		joryDAO = new JoryDAO(em);
 	}
 	
 	public void setUp(Stage stage, Scene scene) {
 		this.stage =  stage;
 		this.scene = scene;
+		
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("Kites | Administration panel (JORY)");

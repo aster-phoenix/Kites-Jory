@@ -20,9 +20,10 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long productID;
 	private String productName;
-	private int productQTY;
+	private float productQTY;
 	private float productPrice;
 	private String productDescription;
+	private String productBrand;
 	@ManyToOne
 	private Category category;
 	
@@ -38,10 +39,10 @@ public class Product {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	public int getProductQTY() {
+	public float getProductQTY() {
 		return productQTY;
 	}
-	public void setProductQTY(int productQTY) {
+	public void setProductQTY(float productQTY) {
 		this.productQTY = productQTY;
 	}
 	public float getProductPrice() {
@@ -55,6 +56,12 @@ public class Product {
 	}
 	public void setProductDescription(String productDescription) {
 		this.productDescription = productDescription;
+	}
+	public String getProductBrand() {
+		return productBrand;
+	}
+	public void setProductBrand(String productBrand) {
+		this.productBrand = productBrand;
 	}
 	public Category getCategory() {
 		return category;
