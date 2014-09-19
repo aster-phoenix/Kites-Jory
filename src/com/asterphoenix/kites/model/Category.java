@@ -1,4 +1,4 @@
-package com.asterphoenix.kites.jory.model;
+package com.asterphoenix.kites.model;
 
 import java.util.Set;
 

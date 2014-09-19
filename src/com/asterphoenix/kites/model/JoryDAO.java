@@ -1,4 +1,4 @@
-package com.asterphoenix.kites.jory.model;
+package com.asterphoenix.kites.model;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ public class JoryDAO {
 	}
 	
 	public User validateUser(User user) {
-//		create admin user
-//		em.getTransaction().begin();
-//		em.persist(user);
-//		em.getTransaction().commit();
+		em.getTransaction().begin();
+		em.persist(user);
+		em.getTransaction().commit();
+		
 		TypedQuery<User> query = em.createQuery("select u from User u where u.userName = :username "
 				+ "and u.hashedPassword = :password", User.class);
 		query.setParameter("username", user.getUserName());
@@ -58,9 +58,7 @@ public class JoryDAO {
 	
 	public void updateCategory(Category newCat) {
 		em.getTransaction().begin();
-		Category oldcat = em.find(Category.class, newCat.getCategoryID());
-		oldcat.setCategoryName(newCat.getCategoryName());
-		oldcat.setCategoryDescription(newCat.getCategoryDescription());
+		em.merge(newCat);
 		em.getTransaction().commit();
 	}
 	
@@ -79,13 +77,7 @@ public class JoryDAO {
 	
 	public void updateProduct(Product newProduct) {
 		em.getTransaction().begin();
-		Product oldProduct = em.find(Product.class, newProduct.getProductID());
-		oldProduct.setProductName(newProduct.getProductName());
-		oldProduct.setProductDescription(newProduct.getProductDescription());
-		oldProduct.setProductBrand(newProduct.getProductBrand());
-		oldProduct.setProductPrice(newProduct.getProductPrice());
-		oldProduct.setProductQTY(newProduct.getProductQTY());
-		oldProduct.setCategory(newProduct.getCategory());
+		em.merge(newProduct);
 		em.getTransaction().commit();
 	}
 

@@ -1,4 +1,4 @@
-package com.asterphoenix.kites.jory.model;
+package com.asterphoenix.kites.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

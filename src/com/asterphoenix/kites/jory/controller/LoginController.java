@@ -24,8 +24,8 @@ import javax.persistence.Persistence;
 import org.controlsfx.dialog.DialogStyle;
 import org.controlsfx.dialog.Dialogs;
 
-import com.asterphoenix.kites.jory.model.JoryDAO;
-import com.asterphoenix.kites.jory.model.User;
+import com.asterphoenix.kites.model.JoryDAO;
+import com.asterphoenix.kites.model.User;
 import com.asterphoenix.roxy.RoxyDigest;
 
 public class LoginController implements Initializable {

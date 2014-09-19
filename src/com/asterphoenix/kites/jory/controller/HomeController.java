@@ -23,9 +23,9 @@ import javax.persistence.Persistence;
 import org.controlsfx.dialog.DialogStyle;
 import org.controlsfx.dialog.Dialogs;
 
-import com.asterphoenix.kites.jory.model.Category;
-import com.asterphoenix.kites.jory.model.JoryDAO;
-import com.asterphoenix.kites.jory.model.Product;
+import com.asterphoenix.kites.model.Category;
+import com.asterphoenix.kites.model.JoryDAO;
+import com.asterphoenix.kites.model.Product;
 
 public class HomeController implements Initializable {
 
@@ -61,12 +61,12 @@ public class HomeController implements Initializable {
 	
 	@FXML
 	public void addCategory(ActionEvent e) {
-		Optional<String> catName = Dialogs.create().masthead("Please provide data")
+		Optional<String> categoryName = Dialogs.create().masthead("Please provide data")
 				.message("Enter category name").lightweight().style(DialogStyle.UNDECORATED)
 				.showTextInput();
-		if (catName.isPresent()) {
+		if (categoryName.isPresent()) {
 			Category c = new Category();
-			c.setCategoryName(catName.get());
+			c.setCategoryName(categoryName.get());
 			joryDAO.addCategory(c);			
 			init();
 		}
@@ -87,11 +87,14 @@ public class HomeController implements Initializable {
 		if (categoryListView1.getSelectionModel().isEmpty()) {
 //			
 		} else {
-			joryDAO.updateCategory(makeCategory());
+			Category c = getSelectedCategory(categoryListView1.getSelectionModel().getSelectedItem());
+			c.setCategoryName(categoryName.getText());
+			c.setCategoryDescription(categoryDesc.getText());
+			joryDAO.updateCategory(c);
 			init();
 		}
-		}
-	
+	}
+
 	@FXML
 	public void addProduct(ActionEvent e) {
 		if (categoryListView2.getSelectionModel().isEmpty()) {
@@ -101,36 +104,42 @@ public class HomeController implements Initializable {
 					.message("Enter product name").lightweight().style(DialogStyle.UNDECORATED)
 					.showTextInput();
 			if (productName.isPresent()) {
-				Optional<Category> cat = categoryList.stream().filter(c -> 
-					c.getCategoryName().equals(categoryListView2.getSelectionModel().getSelectedItem())).findFirst();
-				if (cat.isPresent()) {
-					Product p = new Product();
-					p.setProductName(productName.get());
-					p.setCategory(cat.get());
-					joryDAO.addProduct(p);
-					init();					
-				}
+				Category cat = getSelectedCategory(categoryListView2.getSelectionModel().getSelectedItem());
+				Product p = new Product();
+				p.setProductName(productName.get());
+				p.setCategory(cat);
+				joryDAO.addProduct(p);
+				init();					
 			}
 		}
 	}
 	
 	@FXML
 	public void removeProduct(ActionEvent e) {
-		joryDAO.removeProduct(Long.valueOf(productID.getText()));
-		init();
+		if (productListView.getSelectionModel().isEmpty()) {
+//			
+		} else {
+			joryDAO.removeProduct(Long.valueOf(productID.getText()));
+			init();
+		}
 	}
 	
 	@FXML
 	public void updateProduct(ActionEvent e) {
-		Optional<Category> cat = categoryList.stream().filter(c -> 
-			c.getCategoryName().equals(productCategory.getSelectionModel().getSelectedItem())).findFirst();
-		joryDAO.updateProduct(makeProduct(cat.get()));
+		Product p = getSelectedProduct(productListView.getSelectionModel().getSelectedItem());
+		p.setProductName(productName.getText());
+		p.setProductPrice(Float.valueOf(productPrice.getText()));
+		p.setProductQTY(Float.valueOf(productQTY.getText()));
+		p.setProductBrand(productBrand.getSelectionModel().getSelectedItem());
+		p.setProductDescription(productDesc.getText());
+		p.setCategory(getSelectedCategory(productCategory.getSelectionModel().getSelectedItem()));
+		joryDAO.updateProduct(p);
 		init();
 	}
 	
 	@FXML
 	public void onCategoryListView1Clicked() {
-		displayCategory(categoryListView1.getSelectionModel().getSelectedItem());
+		displayCategory(getSelectedCategory(categoryListView1.getSelectionModel().getSelectedItem()));
 	}
 	
 	@FXML
@@ -140,7 +149,7 @@ public class HomeController implements Initializable {
 	
 	@FXML
 	public void onProductListViewClicked() {
-		displayProduct(productListView.getSelectionModel().getSelectedItem());
+		displayProduct(getSelectedProduct(productListView.getSelectionModel().getSelectedItem()));
 	}
 	
 	public void updateLists() {
@@ -176,49 +185,38 @@ public class HomeController implements Initializable {
 		});
 	}
 	
-	public Category makeCategory() {
-		Category c = new Category();
-		c.setCategoryID(Long.valueOf(categoryID.getText()));
-		c.setCategoryName(categoryName.getText());
-		c.setCategoryDescription(categoryDesc.getText());
-		return c;
-		
-	}
-	
-	public Product makeProduct(Category c) {
-		Product p = new Product();
-		p.setProductID(Long.valueOf(productID.getText()));
-		p.setProductName(productName.getText());
-		p.setProductPrice(Float.valueOf(productPrice.getText()));
-		p.setProductQTY(Float.valueOf(productQTY.getText()));
-		p.setProductBrand(productBrand.getSelectionModel().getSelectedItem());
-		p.setProductDescription(productDesc.getText());
-		p.setCategory(c);
-		return p;
-	}
-	
-	public void displayCategory(String selectedCat) {
+	public Category getSelectedCategory(String selectedCategoryName) {
 		Optional<Category> cat = categoryList.stream().filter(c ->
-			c.getCategoryName().equals(selectedCat)).findFirst();
+			c.getCategoryName().equals(selectedCategoryName)).findFirst();
 		if (cat.isPresent()) {
-			categoryID.setText(String.valueOf(cat.get().getCategoryID()));
-			categoryName.setText(cat.get().getCategoryName());
-			categoryDesc.setText(cat.get().getCategoryDescription());
+			return cat.get();
 		}
+		return null;
 	}
 	
-	public void displayProduct(String selectedProduct) {
+	public Product getSelectedProduct(String selectedProductName) {
 		Optional<Product> product = productList.stream().filter(p ->
-			p.getProductName().equals(selectedProduct)).findFirst();
+			p.getProductName().equals(selectedProductName)).findFirst();
 		if (product.isPresent()) {
-			productID.setText(String.valueOf(product.get().getProductID()));
-			productName.setText(product.get().getProductName());
-			productPrice.setText(String.valueOf(product.get().getProductPrice()));
-			productQTY.setText(String.valueOf(product.get().getProductQTY()));
-			productBrand.getSelectionModel().select(product.get().getProductBrand());
-			productCategory.getSelectionModel().select(product.get().getCategory().getCategoryName());
-			productDesc.setText(product.get().getProductDescription());
+			return product.get();
 		}
+		return null;
+	}
+	
+	public void displayCategory(Category category) {
+		categoryID.setText(String.valueOf(category.getCategoryID()));
+		categoryName.setText(category.getCategoryName());
+		categoryDesc.setText(category.getCategoryDescription());
+	}
+	
+	public void displayProduct(Product product) {
+		productID.setText(String.valueOf(product.getProductID()));
+		productName.setText(product.getProductName());
+		productPrice.setText(String.valueOf(product.getProductPrice()));
+		productQTY.setText(String.valueOf(product.getProductQTY()));
+		productBrand.getSelectionModel().select(product.getProductBrand());
+		productCategory.getSelectionModel().select(product.getCategory().getCategoryName());
+		productDesc.setText(product.getProductDescription());
 	}
 	
 	@FXML
