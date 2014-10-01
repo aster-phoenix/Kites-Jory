@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
@@ -16,13 +17,13 @@
          <center>
             <TabPane prefHeight="366.0" prefWidth="966.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                <Tab closable="false" text="Catalogs">
+                <Tab closable="false" text="%categories">
                      <content>
                         <VBox prefHeight="350.0" prefWidth="966.0">
                            <children>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
                                 <items>
-                                  <Button mnemonicParsing="false" onAction="#addCategory" text="Add category">
+                                  <Button mnemonicParsing="false" onAction="#addCategory" text="%add.category">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -30,7 +31,7 @@
                                              </image>
                                           </ImageView>
                                        </graphic></Button>
-                                    <Button mnemonicParsing="false" onAction="#removeCategory" text="Remove selected category">
+                                    <Button mnemonicParsing="false" onAction="#removeCategory" text="%remove.category">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -39,7 +40,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#updateCategory" text="Update selected category">
+                                    <Button mnemonicParsing="false" onAction="#updateCategory" text="%update.category">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -60,17 +61,25 @@
                                       </columnConstraints>
                                       <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Label text="Category ID" />
-                                          <Label text="Category Name" GridPane.rowIndex="1" />
-                                          <Label text="Category Description" GridPane.rowIndex="2" />
+                                          <Label text="%category.id" />
+                                          <Label text="%category.name" GridPane.rowIndex="2" />
+                                          <Label text="%category.description" GridPane.rowIndex="3" />
                                           <Label fx:id="categoryID" text="#####" GridPane.columnIndex="1" />
-                                          <TextField fx:id="categoryName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <TextArea fx:id="categoryDesc" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="categoryName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextArea fx:id="categoryDesc" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label text="Label" GridPane.rowIndex="1" />
+                                          <HBox alignment="BOTTOM_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <children>
+                                                <ImageView fx:id="categoryImage" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Button mnemonicParsing="false" onAction="#browseImage" text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                             </children>
+                                          </HBox>
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" right="10.0" />
@@ -82,13 +91,13 @@
                         </VBox>
                      </content>
                   </Tab>
-                <Tab closable="false" text="Products">
+                <Tab closable="false" text="%products">
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
                                 <items>
-                                  <Button mnemonicParsing="false" onAction="#addProduct" text="Add product">
+                                  <Button mnemonicParsing="false" onAction="#addProduct" text="%add.product">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -97,7 +106,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#removeProduct" text="Remove selected product">
+                                    <Button mnemonicParsing="false" onAction="#removeProduct" text="%remove.product">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -106,7 +115,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#updateProduct" text="Update selected product">
+                                    <Button mnemonicParsing="false" onAction="#updateProduct" text="%update.product">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -140,12 +149,12 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Label text="Product ID" />
-                                          <Label text="Product Name" GridPane.rowIndex="1" />
-                                          <Label text="Product Quantity" GridPane.rowIndex="2" />
-                                          <Label text="Product Price" GridPane.rowIndex="3" />
-                                          <Label text="Product Description" GridPane.rowIndex="5" />
-                                          <Label text="Product Category" GridPane.rowIndex="6" />
+                                          <Label text="%product.id" />
+                                          <Label text="%product.name" GridPane.rowIndex="1" />
+                                          <Label text="%product.qty" GridPane.rowIndex="2" />
+                                          <Label text="%product.price" GridPane.rowIndex="3" />
+                                          <Label text="%product.description" GridPane.rowIndex="5" />
+                                          <Label text="%product.category" GridPane.rowIndex="6" />
                                           <Label fx:id="productID" text="#####" GridPane.columnIndex="1" />
                                           <TextField fx:id="productName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <TextField fx:id="productQTY" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -153,7 +162,7 @@
                                           <ComboBox fx:id="productCategory" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                           <TextArea fx:id="productDesc" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                           <ComboBox fx:id="productBrand" editable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <Label text="Product Brand" GridPane.rowIndex="4" />
+                                          <Label text="%product.brand" GridPane.rowIndex="4" />
                                        </children>
                                        <padding>
                                           <Insets right="10.0" />
@@ -197,11 +206,29 @@
          <bottom>
             <HBox alignment="TOP_RIGHT" prefHeight="32.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onMouseClicked="#switchScreen" text="fullscreen">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchScreen" text="fullscreen">
+                     <graphic>
+                        <ImageView fx:id="fullScreenIMG" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/ic_action_full_screen.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#minimize" text="minimize">
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../res/ic_action_full_screen.png" />
+                              <Image url="@../res/ic_action_expand.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: #f44;" text="exit">
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/ic_action_cancel.png" />
                            </image>
                         </ImageView>
                      </graphic>

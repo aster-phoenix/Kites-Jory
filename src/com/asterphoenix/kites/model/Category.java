@@ -6,10 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -17,7 +17,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 public class Category {
 	
-	@XmlAttribute
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long categoryID;
@@ -25,6 +24,8 @@ public class Category {
 	private String categoryDescription;
 	@OneToMany (mappedBy = "category")
 	private Set<Product> products;
+	@Lob
+	private byte[] imageBytes;
 	
 	public long getCategoryID() {
 		return categoryID;
@@ -49,6 +50,12 @@ public class Category {
 	}
 	public void setProducts(Set<Product> products) {
 		this.products = products;
+	}
+	public byte[] getImageBytes() {
+		return imageBytes;
+	}
+	public void setImageBytes(byte[] imageBytes) {
+		this.imageBytes = imageBytes;
 	}
 
 }

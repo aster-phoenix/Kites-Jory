@@ -2,8 +2,6 @@ package com.asterphoenix.kites.jory.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -33,12 +31,14 @@ public class LoginController implements Initializable {
 	private Stage stage;
 	private Scene scene;
 	private JoryDAO joryDAO;
+	private ResourceBundle resources;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Kites-Jory");
 		EntityManager em = emf.createEntityManager();
 		joryDAO = new JoryDAO(em);
+		this.resources = resources;
 	}
 	
 	public void setUp(Stage stage, Scene scene) {
@@ -49,6 +49,7 @@ public class LoginController implements Initializable {
 		stage.setResizable(false);
 		stage.setTitle("Kites | Administration panel (JORY)");
 		stage.getIcons().add(new Image(this.getClass().getResource("../res/Butterfly-web-32.png").toExternalForm()));
+		stage.centerOnScreen();
 		stage.show();
 	}
 	
@@ -62,9 +63,10 @@ public class LoginController implements Initializable {
 		user = joryDAO.validateUser(user);
 		if (null != user) {
 			openHome();
+			joryDAO.closeResources();
 		} else {
-			Dialogs.create().title("Warrning").masthead("Authentication faild")
-			.message("User name OR password are not correct please try again!")
+			Dialogs.create().masthead(resources.getString("auth.fail"))
+			.message(resources.getString("auth.fail.msg"))
 			.lightweight().style(DialogStyle.UNDECORATED).showWarning();
 			userNameField.clear();
 			passwordField.clear();
@@ -73,10 +75,8 @@ public class LoginController implements Initializable {
 	
 	public void openHome() {
 		try {
-			ResourceBundle resource = PropertyResourceBundle
-					.getBundle("com.asterphoenix.kites.jory.res/Kites", Locale.getDefault());
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Home.fxml"));
-			loader.setResources(resource);
+			loader.setResources(resources);
 			StackPane root = loader.load();
 			scene.setRoot(root);
 			HomeController controller = loader.getController();

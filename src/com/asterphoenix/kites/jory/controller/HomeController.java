@@ -1,10 +1,18 @@
 package com.asterphoenix.kites.jory.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,8 +22,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,11 +45,13 @@ public class HomeController implements Initializable {
 	private Stage stage;
 	private Scene scene;
 	private JoryDAO joryDAO;
+	private ResourceBundle resources;
 	private List<Category> categoryList;
 	private List<Product> productList;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.resources = resources;
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Kites-Jory");
 		EntityManager em = emf.createEntityManager();
 		joryDAO = new JoryDAO(em);
@@ -57,12 +72,14 @@ public class HomeController implements Initializable {
 		this.stage.setResizable(true);
 		this.stage.setWidth(966);
 		this.stage.setHeight(600);
+		this.stage.centerOnScreen();
 	}
 	
 	@FXML
 	public void addCategory(ActionEvent e) {
-		Optional<String> categoryName = Dialogs.create().masthead("Please provide data")
-				.message("Enter category name").lightweight().style(DialogStyle.UNDECORATED)
+		Optional<String> categoryName = Dialogs.create().masthead(resources.getString("provide.data"))
+				.message(resources.getString("provide.cat.name"))
+				.lightweight().style(DialogStyle.UNDECORATED)
 				.showTextInput();
 		if (categoryName.isPresent()) {
 			Category c = new Category();
@@ -90,6 +107,13 @@ public class HomeController implements Initializable {
 			Category c = getSelectedCategory(categoryListView1.getSelectionModel().getSelectedItem());
 			c.setCategoryName(categoryName.getText());
 			c.setCategoryDescription(categoryDesc.getText());
+			ByteArrayOutputStream buf = new ByteArrayOutputStream();
+			try {
+				ImageIO.write(SwingFXUtils.fromFXImage(categoryImage.getImage(), null), "png", buf);
+				c.setImageBytes(buf.toByteArray());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			joryDAO.updateCategory(c);
 			init();
 		}
@@ -100,8 +124,9 @@ public class HomeController implements Initializable {
 		if (categoryListView2.getSelectionModel().isEmpty()) {
 //			
 		} else {
-			Optional<String> productName = Dialogs.create().masthead("Please provide data")
-					.message("Enter product name").lightweight().style(DialogStyle.UNDECORATED)
+			Optional<String> productName = Dialogs.create().masthead(resources.getString("provide.data"))
+					.message(resources.getString("provide.product.name"))
+					.lightweight().style(DialogStyle.UNDECORATED)
 					.showTextInput();
 			if (productName.isPresent()) {
 				Category cat = getSelectedCategory(categoryListView2.getSelectionModel().getSelectedItem());
@@ -207,6 +232,7 @@ public class HomeController implements Initializable {
 		categoryID.setText(String.valueOf(category.getCategoryID()));
 		categoryName.setText(category.getCategoryName());
 		categoryDesc.setText(category.getCategoryDescription());
+		categoryImage.setImage(new Image(new ByteArrayInputStream(category.getImageBytes())));
 	}
 	
 	public void displayProduct(Product product) {
@@ -220,12 +246,44 @@ public class HomeController implements Initializable {
 	}
 	
 	@FXML
+	public void browseImage() {
+		FileChooser fc = new FileChooser();
+		fc.setSelectedExtensionFilter(new ExtensionFilter("Images", "png"));
+		File image = fc.showOpenDialog(stage);
+		try {
+			byte[] buf = Files.readAllBytes(image.toPath());
+			categoryImage.setImage(new Image(new ByteArrayInputStream(buf)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
 	public void switchScreen() {
 		stage.setFullScreen(!stage.isFullScreen());
+		if (stage.isFullScreen()) {
+			fullScreenIMG.setImage(new Image(this.getClass()
+					.getResource("../res/ic_action_return_from_full_screen.png").toExternalForm()));
+		} else {
+			fullScreenIMG.setImage(new Image(this.getClass()
+					.getResource("../res/ic_action_full_screen.png").toExternalForm()));
+		}
+	}
+	
+	@FXML
+	public void exit() {
+		joryDAO.closeResources();
+		Platform.exit();
+	}
+	
+	@FXML
+	public void minimize() {
+		stage.setIconified(true);
 	}
 	
 	@FXML private Label categoryID;
 	@FXML private TextField categoryName;
+	@FXML private ImageView categoryImage;
 	@FXML private TextArea categoryDesc;
 	@FXML private Label productID;
 	@FXML private TextField productName;
@@ -237,5 +295,7 @@ public class HomeController implements Initializable {
 	@FXML private ListView<String> categoryListView1;
 	@FXML private ListView<String> categoryListView2;
 	@FXML private ListView<String> productListView;
+	
+	@FXML private ImageView fullScreenIMG;
 
 }

@@ -16,9 +16,9 @@ public class JoryDAO {
 	}
 	
 	public User validateUser(User user) {
-		em.getTransaction().begin();
-		em.persist(user);
-		em.getTransaction().commit();
+//		em.getTransaction().begin();
+//		em.persist(user);
+//		em.getTransaction().commit();
 		
 		TypedQuery<User> query = em.createQuery("select u from User u where u.userName = :username "
 				+ "and u.hashedPassword = :password", User.class);
@@ -79,6 +79,12 @@ public class JoryDAO {
 		em.getTransaction().begin();
 		em.merge(newProduct);
 		em.getTransaction().commit();
+	}
+
+	public void closeResources() {
+		if (em.isOpen()) {
+			em.close();
+		}
 	}
 
 }
