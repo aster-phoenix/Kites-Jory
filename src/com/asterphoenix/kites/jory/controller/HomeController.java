@@ -24,6 +24,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -110,9 +111,9 @@ public class HomeController implements Initializable {
 			ByteArrayOutputStream buf = new ByteArrayOutputStream();
 			try {
 				ImageIO.write(SwingFXUtils.fromFXImage(categoryImage.getImage(), null), "png", buf);
-				c.setImageBytes(buf.toByteArray());
-			} catch (IOException e1) {
-				e1.printStackTrace();
+				c.setImageBytes(Base64.getEncoder().encodeToString(buf.toByteArray()));
+			} catch (IOException ex) {
+				ex.printStackTrace();
 			}
 			joryDAO.updateCategory(c);
 			init();
@@ -158,6 +159,13 @@ public class HomeController implements Initializable {
 		p.setProductBrand(productBrand.getSelectionModel().getSelectedItem());
 		p.setProductDescription(productDesc.getText());
 		p.setCategory(getSelectedCategory(productCategory.getSelectionModel().getSelectedItem()));
+		ByteArrayOutputStream buf = new ByteArrayOutputStream();
+		try {
+			ImageIO.write(SwingFXUtils.fromFXImage(productImage.getImage(), null), "png", buf);
+			p.setImageBytes(Base64.getEncoder().encodeToString(buf.toByteArray()));
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 		joryDAO.updateProduct(p);
 		init();
 	}
@@ -232,7 +240,13 @@ public class HomeController implements Initializable {
 		categoryID.setText(String.valueOf(category.getCategoryID()));
 		categoryName.setText(category.getCategoryName());
 		categoryDesc.setText(category.getCategoryDescription());
-		categoryImage.setImage(new Image(new ByteArrayInputStream(category.getImageBytes())));
+		try {
+			categoryImage.setImage(new Image(new ByteArrayInputStream(
+					Base64.getDecoder().decode(category.getImageBytes()))));
+		} catch (Exception e) {
+			categoryImage.setImage(new Image(getClass()
+					.getResource("../res/ic_action_attachment.png").toExternalForm()));
+		}
 	}
 	
 	public void displayProduct(Product product) {
@@ -243,18 +257,32 @@ public class HomeController implements Initializable {
 		productBrand.getSelectionModel().select(product.getProductBrand());
 		productCategory.getSelectionModel().select(product.getCategory().getCategoryName());
 		productDesc.setText(product.getProductDescription());
+		try {
+			productImage.setImage(new Image(new ByteArrayInputStream(
+					Base64.getDecoder().decode(product.getImageBytes()))));
+		} catch (Exception e) {
+			productImage.setImage(new Image(getClass()
+					.getResource("../res/ic_action_attachment.png").toExternalForm()));
+		}
 	}
 	
 	@FXML
-	public void browseImage() {
+	public void browseImage(MouseEvent e) {
 		FileChooser fc = new FileChooser();
-		fc.setSelectedExtensionFilter(new ExtensionFilter("Images", "png"));
-		File image = fc.showOpenDialog(stage);
-		try {
-			byte[] buf = Files.readAllBytes(image.toPath());
-			categoryImage.setImage(new Image(new ByteArrayInputStream(buf)));
-		} catch (IOException e) {
-			e.printStackTrace();
+		fc.getExtensionFilters().add(new ExtensionFilter("PNG Images", "*.png"));
+		File file = fc.showOpenDialog(stage);
+		if (null != file) {
+			try {
+				byte[] buf = Files.readAllBytes(file.toPath());
+				ImageView iv = (ImageView) e.getSource();
+				if (iv.equals(categoryImage)) {
+					categoryImage.setImage(new Image(new ByteArrayInputStream(buf)));
+				} else if (iv.equals(productImage)) {
+					productImage.setImage(new Image(new ByteArrayInputStream(buf)));
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 	
@@ -287,6 +315,7 @@ public class HomeController implements Initializable {
 	@FXML private TextArea categoryDesc;
 	@FXML private Label productID;
 	@FXML private TextField productName;
+	@FXML private ImageView productImage;
 	@FXML private TextField productQTY;
 	@FXML private TextField productPrice;
 	@FXML private ComboBox<String> productBrand;

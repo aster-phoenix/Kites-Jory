@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.paint.*?>
@@ -61,25 +62,26 @@
                                       </columnConstraints>
                                       <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
                                           <Label text="%category.id" />
-                                          <Label text="%category.name" GridPane.rowIndex="2" />
-                                          <Label text="%category.description" GridPane.rowIndex="3" />
-                                          <Label fx:id="categoryID" text="#####" GridPane.columnIndex="1" />
-                                          <TextField fx:id="categoryName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <TextArea fx:id="categoryDesc" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <Label text="Label" GridPane.rowIndex="1" />
-                                          <HBox alignment="BOTTOM_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                          <Label text="%category.name" GridPane.rowIndex="1" />
+                                          <Label text="%category.description" GridPane.rowIndex="2" />
+                                          <HBox alignment="CENTER_LEFT" spacing="100.0" GridPane.columnIndex="1">
                                              <children>
-                                                <ImageView fx:id="categoryImage" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                <Button mnemonicParsing="false" onAction="#browseImage" text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Label fx:id="categoryID" text="#####" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <ImageView fx:id="categoryImage" fitHeight="80.0" fitWidth="100.0" onMouseClicked="#browseImage" pickOnBounds="true" preserveRatio="true">
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </ImageView>
                                              </children>
                                           </HBox>
+                                          <TextField fx:id="categoryName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextArea fx:id="categoryDesc" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" right="10.0" />
@@ -155,7 +157,15 @@
                                           <Label text="%product.price" GridPane.rowIndex="3" />
                                           <Label text="%product.description" GridPane.rowIndex="5" />
                                           <Label text="%product.category" GridPane.rowIndex="6" />
-                                          <Label fx:id="productID" text="#####" GridPane.columnIndex="1" />
+                                          <HBox alignment="CENTER_LEFT" spacing="80.0" GridPane.columnIndex="1">
+                                             <children>
+                                                <Label fx:id="productID" text="######" GridPane.columnIndex="1" />
+                                                <ImageView fx:id="productImage" fitHeight="80.0" fitWidth="100.0" onMouseClicked="#browseImage" pickOnBounds="true" preserveRatio="true">
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor></ImageView>
+                                             </children>
+                                          </HBox>
                                           <TextField fx:id="productName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <TextField fx:id="productQTY" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <TextField fx:id="productPrice" GridPane.columnIndex="1" GridPane.rowIndex="3" />

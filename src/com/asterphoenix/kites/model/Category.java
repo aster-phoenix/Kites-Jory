@@ -24,8 +24,7 @@ public class Category {
 	private String categoryDescription;
 	@OneToMany (mappedBy = "category")
 	private Set<Product> products;
-	@Lob
-	private byte[] imageBytes;
+	private String imageBytes;
 	
 	public long getCategoryID() {
 		return categoryID;
@@ -51,10 +50,10 @@ public class Category {
 	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
-	public byte[] getImageBytes() {
+	public String getImageBytes() {
 		return imageBytes;
 	}
-	public void setImageBytes(byte[] imageBytes) {
+	public void setImageBytes(String imageBytes) {
 		this.imageBytes = imageBytes;
 	}
 

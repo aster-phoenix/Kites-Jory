@@ -26,6 +26,7 @@ public class Product {
 	private String productBrand;
 	@ManyToOne
 	private Category category;
+	private String imageBytes;
 	
 	public long getProductID() {
 		return productID;
@@ -68,6 +69,12 @@ public class Product {
 	}
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	public String getImageBytes() {
+		return imageBytes;
+	}
+	public void setImageBytes(String imageBytes) {
+		this.imageBytes = imageBytes;
 	}
 
 }
