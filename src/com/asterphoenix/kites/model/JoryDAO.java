@@ -1,5 +1,10 @@
 package com.asterphoenix.kites.model;
 
+import java.io.File;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -84,6 +89,30 @@ public class JoryDAO {
 	public void closeResources() {
 		if (em.isOpen()) {
 			em.close();
+		}
+	}
+	
+	public boolean backup(File file) {
+		try {
+			TypedQuery<Thread> backupQuery = em.createQuery("objectdb backup", Thread.class);
+			backupQuery.setParameter("target", file);
+			Thread backupThread = backupQuery.getSingleResult();
+			backupThread.join();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean restore(File restoreFile) {
+		try {
+			File dist = new File("D:\\APPS\\Portable\\JEE Servers\\objectdb\\db\\KDB.odb");
+			Files.copy(restoreFile.toPath(), dist.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 

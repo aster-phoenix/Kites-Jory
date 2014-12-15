@@ -25,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -49,6 +50,7 @@ public class HomeController implements Initializable {
 	private ResourceBundle resources;
 	private List<Category> categoryList;
 	private List<Product> productList;
+	private File backupFile;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -309,6 +311,46 @@ public class HomeController implements Initializable {
 		stage.setIconified(true);
 	}
 	
+	@FXML
+	public void browseBackup() {
+		DirectoryChooser dc = new DirectoryChooser();
+		backupFile = dc.showDialog(stage);
+		if (null != backupFile) {
+			backupPath.setText(backupFile.getAbsolutePath());
+		}
+	}
+	
+	@FXML
+	public void browseRestore() {
+		FileChooser fc = new FileChooser();
+		backupFile = fc.showOpenDialog(stage);
+		if (null != backupFile) {
+			restorePath.setText(backupFile.getAbsolutePath());
+		}
+	}
+	
+	@FXML
+	public void goBackup() {
+		if (backupFile != null) {
+			if (joryDAO.backup(backupFile)) {
+				backupPath.setText("");
+				Dialogs.create().message(resources.getString("backup.success"))
+				.style(DialogStyle.UNDECORATED).lightweight().showInformation();
+			}
+		}
+	}
+	
+	@FXML
+	public void goRestore() {
+		if (backupFile != null) {
+			if (joryDAO.restore(backupFile)) {
+				restorePath.setText("");
+				Dialogs.create().message(resources.getString("restore.success"))
+					.style(DialogStyle.UNDECORATED).lightweight().showInformation();
+			}
+		}
+	}
+	
 	@FXML private Label categoryID;
 	@FXML private TextField categoryName;
 	@FXML private ImageView categoryImage;
@@ -324,6 +366,9 @@ public class HomeController implements Initializable {
 	@FXML private ListView<String> categoryListView1;
 	@FXML private ListView<String> categoryListView2;
 	@FXML private ListView<String> productListView;
+	
+	@FXML private TextField backupPath;
+	@FXML private TextField restorePath;
 	
 	@FXML private ImageView fullScreenIMG;
 
