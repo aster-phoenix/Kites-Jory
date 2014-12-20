@@ -1,9 +1,7 @@
 package com.asterphoenix.kites.model;
 
 import java.io.File;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
@@ -20,11 +18,14 @@ public class JoryDAO {
 		this.em = em;
 	}
 	
+	public User updateUser(User user) {
+		em.getTransaction().begin();
+		em.merge(user);
+		em.getTransaction().commit();
+		return user;
+	}
+	
 	public User validateUser(User user) {
-//		em.getTransaction().begin();
-//		em.persist(user);
-//		em.getTransaction().commit();
-		
 		TypedQuery<User> query = em.createQuery("select u from User u where u.userName = :username "
 				+ "and u.hashedPassword = :password", User.class);
 		query.setParameter("username", user.getUserName());
@@ -107,7 +108,7 @@ public class JoryDAO {
 	
 	public boolean restore(File restoreFile) {
 		try {
-			File dist = new File("D:\\APPS\\Portable\\JEE Servers\\objectdb\\db\\KDB.odb");
+			File dist = new File("D:\\APPS\\Portable\\JEE Servers\\objectdb\\db\\Kites\\KDB.odb");
 			Files.copy(restoreFile.toPath(), dist.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			return true;
 		} catch (Exception e) {

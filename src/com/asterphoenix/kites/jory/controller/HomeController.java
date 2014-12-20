@@ -41,6 +41,8 @@ import org.controlsfx.dialog.Dialogs;
 import com.asterphoenix.kites.model.Category;
 import com.asterphoenix.kites.model.JoryDAO;
 import com.asterphoenix.kites.model.Product;
+import com.asterphoenix.kites.model.User;
+import com.asterphoenix.roxy.RoxyDigest;
 
 public class HomeController implements Initializable {
 
@@ -351,6 +353,47 @@ public class HomeController implements Initializable {
 		}
 	}
 	
+	@FXML
+	public void goCredentials() {
+		if (!oldUsername.getText().trim().isEmpty() &&
+				!oldPassword.getText().trim().isEmpty() &&
+				!newUsername.getText().trim().isEmpty() &&
+				!newPassword.getText().trim().isEmpty()) {
+			User user = new User();
+			RoxyDigest digest = new RoxyDigest();
+			user.setUserName(oldUsername.getText());
+			String hashedPassword = new String(digest.digestWithSHA256(oldPassword.getText().getBytes()));
+			user.setHashedPassword(hashedPassword);
+			user = joryDAO.validateUser(user);
+			if (null != user) {
+				user.setUserName(newUsername.getText());
+				hashedPassword = new String(digest.digestWithSHA256(newPassword.getText().getBytes()));
+				user.setHashedPassword(hashedPassword);
+				user = joryDAO.updateUser(user);
+				Dialogs.create().message(resources.getString("user.updated"))
+				.lightweight().style(DialogStyle.UNDECORATED).showInformation();
+				goClear();
+			} else {
+				Dialogs.create().masthead(resources.getString("auth.fail"))
+				.message(resources.getString("auth.fail.msg"))
+				.lightweight().style(DialogStyle.UNDECORATED).showWarning();
+				oldUsername.clear();
+				oldPassword.clear();
+			}
+		} else {
+			Dialogs.create().message(resources.getString("provide.data"))
+			.lightweight().style(DialogStyle.UNDECORATED).showWarning();
+		}
+	}
+	
+	@FXML
+	public void goClear() {
+		oldUsername.setText("");
+		oldPassword.setText("");
+		newUsername.setText("");
+		newPassword.setText("");
+	}
+	
 	@FXML private Label categoryID;
 	@FXML private TextField categoryName;
 	@FXML private ImageView categoryImage;
@@ -369,6 +412,10 @@ public class HomeController implements Initializable {
 	
 	@FXML private TextField backupPath;
 	@FXML private TextField restorePath;
+	@FXML private TextField oldUsername;
+	@FXML private TextField oldPassword;
+	@FXML private TextField newUsername;
+	@FXML private TextField newPassword;
 	
 	@FXML private ImageView fullScreenIMG;
 

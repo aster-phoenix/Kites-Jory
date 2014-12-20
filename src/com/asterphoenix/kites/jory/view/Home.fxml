@@ -276,20 +276,20 @@
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%new.username" GridPane.rowIndex="1" />
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%old.password" GridPane.columnIndex="2" />
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%new.password" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                          <TextField GridPane.columnIndex="1" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <Button mnemonicParsing="false" text="%btn.go" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                          <TextField fx:id="oldUsername" GridPane.columnIndex="1" />
+                                          <PasswordField fx:id="oldPassword" GridPane.columnIndex="3" />
+                                          <TextField fx:id="newUsername" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <PasswordField fx:id="newPassword" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <Button mnemonicParsing="false" onAction="#goCredentials" text="%btn.go" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                              <font>
                                                 <Font name="Century Gothic" size="24.0" />
                                              </font>
                                           </Button>
-                                          <Button mnemonicParsing="false" text="%btn.clear" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                          <Button mnemonicParsing="false" onAction="#goClear" text="%btn.clear" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                              <font>
                                                 <Font name="Century Gothic" size="24.0" />
                                              </font>
                                           </Button>
-                                          <PasswordField GridPane.columnIndex="3" />
-                                          <PasswordField GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
                                  </content>

@@ -1,7 +1,6 @@
 package com.asterphoenix.kites.model;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,12 +21,10 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long orderID;
-	private Customer customer;
-	private LocalDateTime timeStamp;
-	private int totalPrice;
+	private float totalPrice;
 	private OrderStatus orderStatus;
-	@OneToMany (mappedBy = "order")
-	private Set<OrderItem> orders;
+	@OneToMany
+	private List<OrderItem> orders;
 
 	public enum OrderStatus {
 		New, Completed, Rejected
@@ -41,27 +38,11 @@ public class Order {
 		this.orderID = orderID;
 	}
 
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public LocalDateTime getTimeStamp() {
-		return timeStamp;
-	}
-
-	public void setTimeStamp(LocalDateTime timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-
-	public int getTotalPrice() {
+	public float getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(int totalPrice) {
+	public void setTotalPrice(float totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
@@ -73,11 +54,11 @@ public class Order {
 		this.orderStatus = orderStatus;
 	}
 
-	public Set<OrderItem> getOrders() {
+	public List<OrderItem> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(Set<OrderItem> orders) {
+	public void setOrders(List<OrderItem> orders) {
 		this.orders = orders;
 	}
 	
