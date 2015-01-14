@@ -183,6 +183,87 @@
                            </children>
                         </VBox>
                      </content></Tab>
+                  <Tab text="%orders">
+                    <content>
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <ToolBar prefHeight="40.0" prefWidth="200.0">
+                                <items>
+                                  <Button mnemonicParsing="false" onAction="#goPendding" text="%pendding">
+                                       <graphic>
+                                          <Label fx:id="penddingLabel" text="##" textFill="#a10909">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#goShiped" text="%Shipped">
+                                       <graphic>
+                                          <Label fx:id="shipedLabel" text="##" textFill="#a10909">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#goCompleted" text="%completed">
+                                       <graphic>
+                                          <Label fx:id="completedLabel" text="##" textFill="#a10909">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#goRejected" text="%rejected">
+                                       <graphic>
+                                          <Label fx:id="rejectedLabel" text="##" textFill="#a10909">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </graphic>
+                                    </Button>
+                                    <Separator orientation="VERTICAL" prefHeight="35.0" prefWidth="22.0" />
+                                    <Label text="%filter" textFill="#995500">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <DatePicker fx:id="datePicker" editable="false" onAction="#goDateFilter" promptText="%by.date" />
+                                    <ComboBox fx:id="orderType" onAction="#goOrderType" prefWidth="150.0" promptText="%by.type" />
+                                </items>
+                              </ToolBar>
+                              <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
+                                 <items>
+                                    <ListView fx:id="orderListView" onMouseClicked="#onOrderListViewClicked" style="-fx-font-size: 16;" />
+                                    <VBox>
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="customerLabel" text="Label" textFill="#970202">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <ListView fx:id="orderItemListView" style="-fx-font-size: 14;" VBox.vgrow="ALWAYS" />
+                                          <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label text="%status" />
+                                                <ComboBox fx:id="orderStatus" onAction="#goOrderStatus" prefWidth="150.0" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </items>
+                              </SplitPane>
+                           </children>
+                        </VBox>
+                    </content>
+                  </Tab>
                   <Tab text="%operations">
                      <content>
                         <Accordion>

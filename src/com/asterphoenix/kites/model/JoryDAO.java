@@ -8,11 +8,14 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import com.asterphoenix.kites.model.Order.OrderType;
+
 public class JoryDAO {
 	
 	protected EntityManager em;
 	private List<Category> categoryList;
 	private List<Product> productList;
+	private List<Order> orderList;
 	
 	public JoryDAO(EntityManager em) {
 		this.em = em;
@@ -47,6 +50,34 @@ public class JoryDAO {
 		TypedQuery<Product> q2 = em.createQuery("select p from Product p", Product.class);
 		productList = q2.getResultList();
 		return productList;
+	}
+	
+	public Product refreshProduct(Product product) {
+		em.refresh(product);
+		return product;
+	}
+//	public List<Order> getOrderList() {
+//		TypedQuery<Order> q2 = em.createQuery("select o from Order o", Order.class);
+//		orderList = q2.getResultList();
+//		return orderList;
+//	}
+	
+	public List<Order> getOrderList(String date, OrderType type) {
+		TypedQuery<Order> q2 = em.createQuery("select o from Order o where o.orderDate = :date and o.orderType = :type", Order.class);
+		q2.setParameter("date", date);
+		q2.setParameter("type", type);
+		orderList = q2.getResultList();
+		return orderList;
+	}
+	
+	public void mergeOrder(Order order) {
+		em.getTransaction().begin();
+		em.merge(order);
+		em.getTransaction().commit();
+	}
+	
+	public Customer getCustomer(Long id) {
+		return em.find(Customer.class, id);
 	}
 	
 	public void addCategory(Category c) {
